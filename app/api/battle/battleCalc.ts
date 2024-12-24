@@ -62,5 +62,7 @@ export default async function calculateDamage(
       stab *
       typeEffectiveness
   );
+
+  console.log(move.name, "power:", move.power, "type:", move.type, "damage:", damage);
   return damage;
 }

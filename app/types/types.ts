@@ -5,6 +5,7 @@ export type Player = {
   attack: number;
   defense: number;
   maxHp: number;
+  moves: Move[];
 };
 
 export type GameState = {
@@ -16,6 +17,7 @@ export type GameState = {
 };
 
 export type Move = {
+  name: string;
   power: number;
   type: string;
 };

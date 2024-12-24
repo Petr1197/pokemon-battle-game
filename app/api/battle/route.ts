@@ -1,11 +1,31 @@
 import calculateDamage from "./battleCalc";
-import { GameState } from "@/app/types/types";
+import { GameState, Move } from "@/app/types/types";
 
 // Constants
 const OPPONENT_TURN_DELAY_MS = 800;
 
 // Temporary game state stored in memory
 let gameState: GameState | null = null;
+
+// Utility: Fetch pokemon moves
+async function fetchPokemonMoves(pokemonName: string): Promise<Move[]> {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+  const data = await response.json();
+  
+  const moves = await Promise.all(
+    data.moves.slice(0, 4).map(async (moveData: { move: { url: string } }) => {
+      const moveResponse = await fetch(moveData.move.url);
+      const moveDetails = await moveResponse.json();
+      return {
+        name: moveDetails.name,
+        power: moveDetails.power || 50,
+        type: moveDetails.type.name
+      };
+    })
+  );
+  
+  return moves;
+}
 
 // Utility: Initialize game state
 const initializeGameState = async (
@@ -34,6 +54,7 @@ const initializeGameState = async (
       attack: player1Data.stats[1].base_stat,
       defense: player1Data.stats[2].base_stat,
       maxHp: player1Data.stats[0].base_stat,
+      moves: await fetchPokemonMoves(player1),
     },
     player2: {
       name: player2,
@@ -42,6 +63,7 @@ const initializeGameState = async (
       attack: player2Data.stats[1].base_stat,
       defense: player1Data.stats[2].base_stat,
       maxHp: player2Data.stats[0].base_stat,
+      moves: await fetchPokemonMoves(player2),
     },
     currentTurn: "player1",
     status: "player1_turn",
@@ -116,11 +138,11 @@ export async function POST(req: Request): Promise<Response> {
       setTimeout(async () => {
         if (gameState?.currentTurn === "player2") {
           gameState.status = "player2_thinking";
-          const move = { power: 50, type: "normal" }; // AI uses a default move
+          const randomMove = gameState.player2.moves[Math.floor(Math.random() * 4)]; // AI uses a default move
           const damage = await calculateDamage(
             gameState.player2.id,
             gameState.player1.id,
-            move
+            randomMove
           );
 
           gameState.player1.hp -= damage;

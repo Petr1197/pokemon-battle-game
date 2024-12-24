@@ -54,3 +54,22 @@
   font-size: 1.2rem;
   cursor: pointer;
 }
+
+.moves-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.move-button {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.move-button.selected {
+  border-color: #4CAF50;
+  background-color: #e8f5e9;
+}
