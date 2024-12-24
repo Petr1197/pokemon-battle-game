@@ -26,14 +26,14 @@ export default async function calculateDamage(
   const defenderResponseData = await defenderResponse.json();
 
   const attacker: Attacker = {
-    level: 1, // default level
+    level: 5, // default level
     attack: attackerResponseData.stats[1].base_stat,
     defense: attackerResponseData.stats[2].base_stat,
     type: attackerResponseData.types[0].type.name,
   };
 
   const defender: Defender = {
-    level: 1, // default level
+    level: 5, // default level
     attack: defenderResponseData.stats[1].base_stat,
     defense: defenderResponseData.stats[2].base_stat,
     type: defenderResponseData.types[0].type.name,
@@ -62,6 +62,5 @@ export default async function calculateDamage(
       stab *
       typeEffectiveness
   );
-
   return damage;
 }

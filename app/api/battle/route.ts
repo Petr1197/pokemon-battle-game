@@ -2,7 +2,7 @@ import calculateDamage from "./battleCalc";
 import { GameState } from "@/app/types/types";
 
 // Constants
-const OPPONENT_TURN_DELAY_MS = 2000;
+const OPPONENT_TURN_DELAY_MS = 800;
 
 // Temporary game state stored in memory
 let gameState: GameState | null = null;
@@ -32,14 +32,16 @@ const initializeGameState = async (
       hp: player1Data.stats[0].base_stat,
       id: player1Data.id,
       attack: player1Data.stats[1].base_stat,
-      defense: player1Data.stats[2].base_stat
+      defense: player1Data.stats[2].base_stat,
+      maxHp: player1Data.stats[0].base_stat,
     },
     player2: {
       name: player2,
       hp: player2Data.stats[0].base_stat,
       id: player2Data.id,
       attack: player2Data.stats[1].base_stat,
-      defense: player1Data.stats[2].base_stat
+      defense: player1Data.stats[2].base_stat,
+      maxHp: player2Data.stats[0].base_stat,
     },
     currentTurn: "player1",
     status: "player1_turn",
@@ -107,10 +109,13 @@ export async function POST(req: Request): Promise<Response> {
       return createResponse({ error: "It's not your turn" }, 400);
     }
 
+    // console.log("Game State After P1 Turn:", gameState);
+
     // AI (Player 2) Turn
     const opponentTurn = await new Promise<GameState>((resolve) => {
       setTimeout(async () => {
         if (gameState?.currentTurn === "player2") {
+          gameState.status = "player2_thinking";
           const move = { power: 50, type: "normal" }; // AI uses a default move
           const damage = await calculateDamage(
             gameState.player2.id,
@@ -132,6 +137,8 @@ export async function POST(req: Request): Promise<Response> {
         resolve(gameState as GameState);
       }, OPPONENT_TURN_DELAY_MS);
     });
+
+    // console.log("Game State After P2 Turn:", gameState);
 
     return createResponse({ gameState: opponentTurn }, 200);
   } catch (error: unknown) {

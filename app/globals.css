@@ -1,3 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.battle-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.player-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.health-bar {
+  width: 200px;
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  background: #4CAF50;
+  transition: width 0.3s ease-in-out;
+}
+
+.health-fill-low {
+  height: 100%;
+  background: #f44336;
+  transition: width 0.3s ease-in-out;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.welcome-screen {
+  text-align: center;
+  padding: 2rem;
+}
+
+.player-select {
+  margin-top: 2rem;
+}
+
+.player-select button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}

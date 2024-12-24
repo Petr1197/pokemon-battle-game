@@ -4,6 +4,7 @@ export type Player = {
   hp: number;
   attack: number;
   defense: number;
+  maxHp: number;
 };
 
 export type GameState = {
