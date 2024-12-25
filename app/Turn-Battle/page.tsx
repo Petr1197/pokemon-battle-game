@@ -42,13 +42,11 @@ export default function TurnBasedBattle() {
 
   // Main component return
   return (
-    <div className="game-wrapper">
-      <BattleUI
-        gameState={gameState}
-        attack={attack}
-        resetGame={resetGame}
-        startGame={startGame}
-      />
-    </div>
+    <BattleUI
+      gameState={gameState}
+      attack={attack}
+      resetGame={resetGame}
+      startGame={startGame}
+    />
   );
 }

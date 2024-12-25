@@ -55,6 +55,11 @@ const initializeGameState = async (
       defense: player1Data.stats[2].base_stat,
       maxHp: player1Data.stats[0].base_stat,
       moves: await fetchPokemonMoves(player1),
+      sprites: {
+        front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${player1Data.id}.png`,
+        back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${player1Data.id}.png`,
+        official: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${player1Data.id}.png`
+      }
     },
     player2: {
       name: player2,
@@ -64,6 +69,11 @@ const initializeGameState = async (
       defense: player1Data.stats[2].base_stat,
       maxHp: player2Data.stats[0].base_stat,
       moves: await fetchPokemonMoves(player2),
+      sprites: {
+        front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${player2Data.id}.png`,
+        back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${player2Data.id}.png`,
+        official: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${player2Data.id}.png`
+      }
     },
     currentTurn: "player1",
     status: "player1_turn",

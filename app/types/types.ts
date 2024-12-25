@@ -1,4 +1,4 @@
-export type Player = {
+export type Pokemon = {
   id: number;
   name: string;
   hp: number;
@@ -6,11 +6,16 @@ export type Player = {
   defense: number;
   maxHp: number;
   moves: Move[];
+  sprites: {
+    front: string;
+    back: string;
+    official: string;
+  };
 };
 
 export type GameState = {
-  player1: Player;
-  player2: Player;
+  player1: Pokemon;
+  player2: Pokemon;
   currentTurn: "player1" | "player2";
   status: "idle" | "player1_turn" | "player2_thinking" | "game_over";
   winner: string | null;
