@@ -77,10 +77,10 @@ Initiates a battle between selected Pokémon.
 
 ```json
 {
-  "player1": "pikachu",
+  "player1": "charmander",
   "player2": "bulbasaur",
   "action": "attack",
-  "move": "thunderbolt"
+  "move": "fire-punch"
 }
 ```
 
