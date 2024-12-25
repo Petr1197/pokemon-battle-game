@@ -4,16 +4,18 @@ A turn-based Pokémon battle simulator built with Next.js and PokeAPI.
 
 ## Development Status
 
-- [x] Set up Next.js project
-- [x] Integrate PokeAPI for fetching Pokémon data
-- [x] Implement Pokémon selection screen
-- [x] Develop turn-based battle system
-- [x] Calculate damage based on Pokémon types and moves
-- [x] Create responsive design
-- [ ] Add animations for battle moves
-- [ ] Implement multiplayer functionality
-- [ ] Write unit tests for components
-- [ ] Optimize performance for production
+- [x]   Set up Next.js project
+- [x]   Integrate PokeAPI for fetching Pokémon data
+- [x]   Implement Pokémon selection screen
+- [x]   Develop turn-based battle system
+- [x]   Calculate damage based on Pokémon types and moves
+- [x]   Create responsive design
+- [ ]   Add additional moves like defend
+- [ ]   Display slow scroll text for battle information
+- [ ]   Add animations for battle moves
+- [ ]   Implement multiplayer functionality
+- [ ]   Write unit tests for components
+- [ ]   Optimize performance for production
 
 ## How to Play
 
@@ -80,8 +82,89 @@ Initiates a battle between selected Pokémon.
   "action": "attack",
   "move": "thunderbolt"
 }
+```
 
-#### Example Request
+#### Example Response
+
+```json
+{
+  "gameState": {
+    "player1": {
+      "name": "bulbasaur",
+      "hp": 45,
+      "id": 1,
+      "attack": 49,
+      "defense": 49,
+      "maxHp": 45,
+      "moves": [
+        {
+          "name": "razor-wind",
+          "power": 80,
+          "type": "normal"
+        },
+        {
+          "name": "swords-dance",
+          "power": 50,
+          "type": "normal"
+        },
+        {
+          "name": "cut",
+          "power": 50,
+          "type": "normal"
+        },
+        {
+          "name": "bind",
+          "power": 15,
+          "type": "normal"
+        }
+      ],
+      "sprites": {
+        "front": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+        "back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png",
+        "official": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+      }
+    },
+    "player2": {
+      "name": "charmander",
+      "hp": 39,
+      "id": 4,
+      "attack": 52,
+      "defense": 49,
+      "maxHp": 39,
+      "moves": [
+        {
+          "name": "mega-punch",
+          "power": 80,
+          "type": "normal"
+        },
+        {
+          "name": "fire-punch",
+          "power": 75,
+          "type": "fire"
+        },
+        {
+          "name": "thunder-punch",
+          "power": 75,
+          "type": "electric"
+        },
+        {
+          "name": "scratch",
+          "power": 40,
+          "type": "normal"
+        }
+      ],
+      "sprites": {
+        "front": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
+        "back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/4.png",
+        "official": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
+      }
+    },
+    "currentTurn": "player1",
+    "status": "player1_turn",
+    "winner": null
+  }
+}
+```
 
 ## Scripts
 
