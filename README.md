@@ -4,18 +4,18 @@ A turn-based Pokémon battle simulator built with Next.js and PokeAPI.
 
 ## Development Status
 
-- [x]   Set up Next.js project
-- [x]   Integrate PokeAPI for fetching Pokémon data
-- [x]   Implement Pokémon selection screen
-- [x]   Develop turn-based battle system
-- [x]   Calculate damage based on Pokémon types and moves
-- [x]   Create responsive design
-- [ ]   Add additional moves like defend
-- [ ]   Display slow scroll text for battle information
-- [ ]   Add animations for battle moves
-- [ ]   Implement multiplayer functionality
-- [ ]   Write unit tests for components
-- [ ]   Optimize performance for production
+- [x] Set up Next.js project
+- [x] Integrate PokeAPI for fetching Pokémon data
+- [x] Implement Pokémon selection screen
+- [x] Develop turn-based battle system
+- [x] Calculate damage based on Pokémon types and moves
+- [x] Create responsive design
+- [ ] Add additional moves like defend
+- [ ] Display slow scroll text for battle information
+- [ ] Add animations for battle moves
+- [ ] Implement multiplayer functionality
+- [ ] Write unit tests for components
+- [ ] Optimize performance for production
 
 ## How to Play
 
@@ -33,24 +33,31 @@ A turn-based Pokémon battle simulator built with Next.js and PokeAPI.
 ## Installation
 
 1. Clone the repository:
-  ```bash
-  git clone https://github.com/yourusername/pokemon-battle-game.git
-  ```
+
+```bash
+git clone https://github.com/Petr1197/pokemon-battle-game.git
+```
+
 2. Navigate to the project directory:
-  ```bash
-  cd pokemon-battle-game
-  ```
+
+```bash
+cd pokemon-battle-game
+```
+
 3. Install dependencies:
-  ```bash
-  npm install
-  ```
+
+```bash
+npm install
+```
 
 ## Usage
 
 1. Start the development server:
-  ```bash
-  npm run dev
-  ```
+
+```bash
+npm run dev
+```
+
 2. Open your browser and navigate to `http://localhost:3000/Turn-Battle`
 
 ## API Routes
@@ -179,13 +186,13 @@ The `calculateDamage` function in `battlecalc.ts` is responsible for determining
 This function is essential for simulating battles and understanding the impact of different moves in the game. Below is an example of how the function might be used:
 
 ```typescript
-import calculateDamage from './battlecalc';
-import { Move } from '@/app/types/types';
+import calculateDamage from "./battlecalc";
+import { Move } from "@/app/types/types";
 
 const move: Move = {
   name: "fire-punch",
   power: 75,
-  type: "fire"
+  type: "fire",
 };
 
 const damage = await calculateDamage(4, 1, move); // Example: Charmander (id 4) attacks Bulbasaur (id 1)
