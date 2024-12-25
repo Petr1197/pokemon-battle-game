@@ -166,6 +166,32 @@ Initiates a battle between selected Pokémon.
 }
 ```
 
+### Damage Calculation
+
+The `calculateDamage` function in `battlecalc.ts` is responsible for determining the damage dealt by one Pokémon to another during a battle. It uses the following steps:
+
+1. **Fetch Pokémon Data**: Retrieves the attack and defense stats, as well as the type of both the attacker and defender from the PokéAPI.
+2. **Construct Pokémon Objects**: Creates `attacker` and `defender` objects with relevant stats.
+3. **Calculate STAB**: Determines if the move benefits from the Same Type Attack Bonus (STAB).
+4. **Determine Type Effectiveness**: Uses a type chart to find the effectiveness of the move's type against the defender's type.
+5. **Compute Damage**: Applies a simplified damage formula to calculate the final damage output.
+
+This function is essential for simulating battles and understanding the impact of different moves in the game. Below is an example of how the function might be used:
+
+```typescript
+import calculateDamage from './battlecalc';
+import { Move } from '@/app/types/types';
+
+const move: Move = {
+  name: "fire-punch",
+  power: 75,
+  type: "fire"
+};
+
+const damage = await calculateDamage(4, 1, move); // Example: Charmander (id 4) attacks Bulbasaur (id 1)
+console.log(`Damage dealt: ${damage}`);
+```
+
 ## Scripts
 
 - `npm run dev`: Starts the development server
