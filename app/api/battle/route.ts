@@ -1,11 +1,31 @@
 import calculateDamage from "./battleCalc";
-import { GameState } from "@/app/types/types";
+import { GameState, Move } from "@/app/types/types";
 
 // Constants
-const OPPONENT_TURN_DELAY_MS = 2000;
+const OPPONENT_TURN_DELAY_MS = 800;
 
 // Temporary game state stored in memory
 let gameState: GameState | null = null;
+
+// Utility: Fetch pokemon moves
+async function fetchPokemonMoves(pokemonName: string): Promise<Move[]> {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+  const data = await response.json();
+  
+  const moves = await Promise.all(
+    data.moves.slice(0, 4).map(async (moveData: { move: { url: string } }) => {
+      const moveResponse = await fetch(moveData.move.url);
+      const moveDetails = await moveResponse.json();
+      return {
+        name: moveDetails.name,
+        power: moveDetails.power || 50,
+        type: moveDetails.type.name
+      };
+    })
+  );
+  
+  return moves;
+}
 
 // Utility: Initialize game state
 const initializeGameState = async (
@@ -32,14 +52,28 @@ const initializeGameState = async (
       hp: player1Data.stats[0].base_stat,
       id: player1Data.id,
       attack: player1Data.stats[1].base_stat,
-      defense: player1Data.stats[2].base_stat
+      defense: player1Data.stats[2].base_stat,
+      maxHp: player1Data.stats[0].base_stat,
+      moves: await fetchPokemonMoves(player1),
+      sprites: {
+        front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${player1Data.id}.png`,
+        back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${player1Data.id}.png`,
+        official: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${player1Data.id}.png`
+      }
     },
     player2: {
       name: player2,
       hp: player2Data.stats[0].base_stat,
       id: player2Data.id,
       attack: player2Data.stats[1].base_stat,
-      defense: player1Data.stats[2].base_stat
+      defense: player1Data.stats[2].base_stat,
+      maxHp: player2Data.stats[0].base_stat,
+      moves: await fetchPokemonMoves(player2),
+      sprites: {
+        front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${player2Data.id}.png`,
+        back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${player2Data.id}.png`,
+        official: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${player2Data.id}.png`
+      }
     },
     currentTurn: "player1",
     status: "player1_turn",
@@ -107,15 +141,18 @@ export async function POST(req: Request): Promise<Response> {
       return createResponse({ error: "It's not your turn" }, 400);
     }
 
+    // console.log("Game State After P1 Turn:", gameState);
+
     // AI (Player 2) Turn
     const opponentTurn = await new Promise<GameState>((resolve) => {
       setTimeout(async () => {
         if (gameState?.currentTurn === "player2") {
-          const move = { power: 50, type: "normal" }; // AI uses a default move
+          gameState.status = "player2_thinking";
+          const randomMove = gameState.player2.moves[Math.floor(Math.random() * 4)]; // AI uses a default move
           const damage = await calculateDamage(
             gameState.player2.id,
             gameState.player1.id,
-            move
+            randomMove
           );
 
           gameState.player1.hp -= damage;
@@ -132,6 +169,8 @@ export async function POST(req: Request): Promise<Response> {
         resolve(gameState as GameState);
       }, OPPONENT_TURN_DELAY_MS);
     });
+
+    // console.log("Game State After P2 Turn:", gameState);
 
     return createResponse({ gameState: opponentTurn }, 200);
   } catch (error: unknown) {
